@@ -1,5 +1,21 @@
 // clang-format off
 
+
+[[link(android)]]
+class FLAlertLayer : cocos2d::CCLayerColor {
+	// add functions
+}
+
+[[link(android)]]
+class FLAlertLayerProtocol {
+	virtual void FLAlert_Clicked(FLAlertLayer*, bool);
+}
+
+[[link(android)]]
+class GooglePlayDelegate {
+	virtual void googlePlaySignedIn();
+}
+
 [[link(android)]]
 class MenuLayer : cocos2d::CCLayer, FLAlertLayerProtocol, GooglePlayDelegate {
 	// virtual ~MenuLayer();

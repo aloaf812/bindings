@@ -1,5 +1,9 @@
 // clang-format off
 
+[[link(android)]]
+class CCMenuItemSpriteExtra : cocos2d::CCMenuItemSprite {
+	// add members
+}
 
 [[link(android)]]
 class FLAlertLayer : cocos2d::CCLayerColor {

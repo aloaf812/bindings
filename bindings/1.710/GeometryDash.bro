@@ -454,14 +454,7 @@ class BoomScrollLayer : cocos2d::CCLayer {
 	static BoomScrollLayer* create(cocos2d::CCArray*, int, bool, cocos2d::CCArray*, DynamicScrollDelegate*);
 	static BoomScrollLayer* create(cocos2d::CCArray*, int, bool);
 
-	void addPage(cocos2d::CCLayer* obj, int page) = win inline {
-		if (page < static_cast<std::int32_t>(this->m_pages->count())) {
-			page = this->m_pages->count();
-		}
-		this->m_pages->insertObject(obj, page);
-		this->updatePages();
-		this->moveToPage(this->m_currentScreen);
-	}
+	void addPage(cocos2d::CCLayer* obj, int page);
 	void addPage(cocos2d::CCLayer*);
 	TodoReturn cancelAndStoleTouch(cocos2d::CCTouch*, cocos2d::CCEvent*);
 	TodoReturn claimTouch(cocos2d::CCTouch*);
@@ -2300,92 +2293,6 @@ class FLAlertLayer : cocos2d::CCLayerColor {
 [[link(android)]]
 class FLAlertLayerProtocol {
 	virtual void FLAlert_Clicked(FLAlertLayer*, bool) {}
-}
-
-[[link(android)]]
-class FMODAudioEngine : cocos2d::CCNode {
-	// virtual ~FMODAudioEngine();
-
-	static FMODAudioEngine* sharedEngine() = win 0x164c0;
-
-	TodoReturn disableMetering();
-	TodoReturn enableMetering();
-	void fadeBackgroundMusic(bool fadeIn, float duration) = win inline {
-		if (fadeIn) {
-			m_globalChannel->setVolume(0.0f);
-		}
-		m_fadeInDuration = duration;
-		m_fading = true;
-		m_fadeIn = fadeIn;
-	}
-	TodoReturn getBackgroundMusicTime();
-	TodoReturn getBackgroundMusicVolume();
-	TodoReturn getEffectsVolume();
-	bool isBackgroundMusicPlaying() = win 0x16ac0;
-	bool isBackgroundMusicPlaying(gd::string);
-	TodoReturn pauseAllEffects();
-	void pauseBackgroundMusic() = win inline {
-		m_globalChannel->setPaused(true);
-	}
-	TodoReturn pauseEffect(unsigned int);
-	void playBackgroundMusic(gd::string, bool, bool) = win 0x16850;
-	TodoReturn playEffect(gd::string, bool, float, float, float);
-	TodoReturn preloadBackgroundMusic(gd::string);
-	TodoReturn preloadEffect(gd::string);
-	TodoReturn printResult(FMOD_RESULT);
-	TodoReturn resumeAllEffects();
-	TodoReturn resumeBackgroundMusic();
-	TodoReturn resumeEffect(unsigned int);
-	TodoReturn rewindBackgroundMusic();
-	void setBackgroundMusicTime(float) = win 0x16a80;
-	void setBackgroundMusicVolume(float);
-	void setEffectsVolume(float);
-	TodoReturn setupAudioEngine();
-	TodoReturn start();
-	TodoReturn stop();
-	TodoReturn stopAllEffects();
-	void stopBackgroundMusic(bool);
-	TodoReturn stopEffect(unsigned int);
-	TodoReturn unloadEffect(gd::string);
-	TodoReturn willPlayBackgroundMusic();
-
-	virtual void update(float) = win 0x165f0;
-	virtual int getTimeOffset() const;
-	virtual void setTimeOffset(int);
-
-	cocos2d::CCDictionary* m_dictionary;
-	gd::string m_filePath;
-	float m_backgroundMusicVolume;
-	float m_effectsVolume;
-	float m_pulse1;
-	float m_pulse2;
-	float m_pulse3;
-	int m_pulseCounter;
-	bool m_metering;
-	bool m_fading;
-	bool m_fadeIn;
-	float m_fadeInDuration;
-	FMOD::System* m_system;
-	FMOD::Sound* m_sound;
-	FMOD::Channel* m_currentSoundChannel;
-	FMOD::Channel* m_globalChannel;
-	FMOD::DSP* m_DSP;
-	FMOD_RESULT m_lastResult;
-	int m_version;
-	void* m_extraDriverData;
-	int m_musicOffset; // m_timeOffset
-}
-
-[[link(android)]]
-class FMODSound {
-	// virtual ~FMODSound();
-
-	static FMODSound* create(FMOD::Sound*);
-
-	TodoReturn getSound();
-	bool init(FMOD::Sound*);
-
-	virtual void setSound(FMOD::Sound*);
 }
 
 [[link(android)]]

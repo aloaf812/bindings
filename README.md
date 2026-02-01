@@ -1,6 +1,6 @@
 # Bindings
 
-Addresses and bindings for Geometry Dash, for use with the Geode mod loader.
+Addresses and bindings for [Geometry Dash](https://store.steampowered.com/app/322170/Geometry_Dash), for use with the [Geode](https://github.com/geode-sdk/geode) mod loader.
 
 ## Contributing
 
@@ -52,7 +52,7 @@ class Example : Base1, Base2 {
 }
 ```
 
-We are mainly only looking for new addresses for the latest version of GD (Update 2.2074). However, if you are interested in documenting older versions, we will also accept those in the interests of the wider modding community. Please put them in the appropriate subfolder under bindings.
+We are mainly only looking for new addresses for the latest version of GD (Update 2.2081). However, if you are interested in documenting older versions, we will also accept those in the interests of the wider modding community. Please put them in the appropriate subfolder under bindings.
 
 ## SyncBromaScript
 

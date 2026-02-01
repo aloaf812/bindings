@@ -25,9 +25,10 @@ std::string generateAddressHeader(Root const& root);
 std::string generateModifyHeader(Root const& root, std::filesystem::path const& singleFolder, std::unordered_set<std::string>* generatedFiles = nullptr);
 std::string generateBindingHeader(Root const& root, std::filesystem::path const& singleFolder, std::unordered_set<std::string>* generatedFiles = nullptr);
 std::string generatePredeclareHeader(Root const& root);
-std::string generateBindingSource(Root const& root, bool skipPugixml);
+std::string generateBindingSource(Root const& root, std::filesystem::path const& singleFolder, bool skipPugixml, bool skipInlines = false, std::unordered_set<std::string>* generatedFiles = nullptr);
 std::string generateTextInterface(Root const& root);
 matjson::Value generateJsonInterface(Root const& root);
+std::string generateInlineSources(Root const& root, std::filesystem::path const& singleFolder, std::unordered_set<std::string>* generatedFiles = nullptr);
 
 // returns true if the file contents were different (overwritten), false otherwise
 inline bool writeFile(std::filesystem::path const& writePath, std::string const& output) {
@@ -143,7 +144,7 @@ namespace codegen {
         VersionType type = VersionType::Release;
         int tag = 0;
 
-        static Version fromString(std::string const& str) {
+        static Version fromString(std::string_view str) {
             Version v;
             if (str.empty()) return v;
 
@@ -171,9 +172,14 @@ namespace codegen {
         }
     };
 
-    inline bool operator<(Version const& a, std::string const& b) {
-        auto v = Version::fromString(b);
-        return std::tie(a.major, a.minor, a.patch, a.type, a.tag) < std::tie(v.major, v.minor, v.patch, v.type, v.tag);
+    inline bool operator<(Version const& a, std::string_view b) {
+        if (b.starts_with("until ")) {
+            auto v = Version::fromString(b.substr(6));
+            return std::tie(a.major, a.minor, a.patch, a.type, a.tag) >= std::tie(v.major, v.minor, v.patch, v.type, v.tag);
+        } else {
+            auto v = Version::fromString(b);
+            return std::tie(a.major, a.minor, a.patch, a.type, a.tag) < std::tie(v.major, v.minor, v.patch, v.type, v.tag);
+        }
     }
 
     inline Version sdkVersion = {
@@ -209,11 +215,13 @@ namespace codegen {
     }
 
     inline BindStatus getStatusWithPlatform(Platform p, FunctionBindField const& fn) {
+        if (codegen::sdkVersion < fn.prototype.attributes.since) return BindStatus::Missing;
+
         if (platformNumberWithPlatform(p, fn.binds) == -2) return BindStatus::Inlined;
 
-        if ((fn.prototype.attributes.missing & p) != Platform::None || codegen::sdkVersion < fn.prototype.attributes.since) return BindStatus::Missing;
+        if ((fn.prototype.attributes.missing & p) != Platform::None) return BindStatus::Missing;
         if ((fn.prototype.attributes.links & p) != Platform::None) {
-            if (fn.prototype.type != FunctionType::Normal) return BindStatus::NeedsRebinding;
+            if ((p & (Platform::Mac | Platform::iOS)) == Platform::None && fn.prototype.type != FunctionType::Normal) return BindStatus::NeedsRebinding;
 
             if ((int)p & (int)Platform::Android) {
                 for (auto& [type, name] : fn.prototype.args) {
@@ -230,9 +238,11 @@ namespace codegen {
     }
 
     inline BindStatus getStatusWithPlatform(Platform p, Function const& f) {
+        if (codegen::sdkVersion < f.prototype.attributes.since) return BindStatus::Missing;
+
         if (platformNumberWithPlatform(p, f.binds) == -2) return BindStatus::Inlined;
 
-        if ((f.prototype.attributes.missing & p) != Platform::None || codegen::sdkVersion < f.prototype.attributes.since) return BindStatus::Missing;
+        if ((f.prototype.attributes.missing & p) != Platform::None) return BindStatus::Missing;
         if ((f.prototype.attributes.links & p) != Platform::None) return BindStatus::Binded;
 
         if (platformNumberWithPlatform(p, f.binds) != -1) return BindStatus::NeedsBinding;
@@ -334,6 +344,18 @@ namespace codegen {
         auto index = s.rfind("::");
         if (index == std::string::npos) return s;
         return s.substr(index + 2);
+    }
+
+    inline std::string getIncludes(Root const& root) {
+        std::string includes;
+
+        for (auto& header : root.headers) {
+            if ((header.platform & codegen::platform) != Platform::None) {
+                includes += fmt::format("#include <{}>\n", header.name);
+            }
+        }
+
+        return includes;
     }
 
     inline std::string getAddressString(Function const& f) {

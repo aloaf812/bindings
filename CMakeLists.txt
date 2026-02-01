@@ -24,9 +24,36 @@ endif()
 
 set(GEODE_CODEGEN_BINARY_OUT ${CMAKE_CURRENT_BINARY_DIR}/codegen)
 set(GEODE_CODEGEN_PATH ${CMAKE_CURRENT_BINARY_DIR}/bindings)
+set(GEODE_CODEGEN_MAX_AGE 86400 CACHE STRING "Max age (in seconds) for the downloaded Codegen binary before redownloading")
 
 set(GEODE_CODEGEN_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/codegen)
 set(GEODE_CODEGEN_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/codegen-build)
+
+function(geode_download_codegen url output_path)
+	file(DOWNLOAD
+		${url}
+		${output_path}
+		STATUS GEODE_CODEGEN_DOWNLOAD_STATUS
+		TIMEOUT 30
+	)
+
+	list(GET GEODE_CODEGEN_DOWNLOAD_STATUS 0 GEODE_CODEGEN_DOWNLOAD_STATUS_CODE)
+	if (${GEODE_CODEGEN_DOWNLOAD_STATUS_CODE} EQUAL 0)
+		file(
+			CHMOD ${GEODE_CODEGEN_BINARY_OUT}/${GEODE_CODEGEN_TARGET_FILE_NAME}
+			PERMISSIONS
+				OWNER_READ OWNER_WRITE OWNER_EXECUTE
+				GROUP_READ GROUP_WRITE GROUP_EXECUTE
+				WORLD_READ WORLD_WRITE WORLD_EXECUTE
+		)
+		message(STATUS "Downloading Codegen - success")
+		set(SKIP_BUILDING_CODEGEN ON PARENT_SCOPE)
+	else()
+		list(GET GEODE_CODEGEN_DOWNLOAD_STATUS 1 GEODE_CODEGEN_DOWNLOAD_STATUS_MESSAGE)
+		message(STATUS "Downloading Codegen - fail: ${GEODE_CODEGEN_DOWNLOAD_STATUS_MESSAGE}")
+		set(SKIP_BUILDING_CODEGEN OFF PARENT_SCOPE)
+	endif()
+endfunction()
 
 if (NOT DEFINED SKIP_BUILDING_CODEGEN)
 	if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
@@ -41,39 +68,33 @@ if (NOT DEFINED SKIP_BUILDING_CODEGEN)
 	else()
 		unset(GEODE_CODEGEN_DOWNLOAD_FILE_NAME)
 	endif()
+
 	if (DEFINED GEODE_CODEGEN_DOWNLOAD_FILE_NAME)
-		message(STATUS "Downloading Codegen")
-		message(NOTICE "Set SKIP_BUILDING_CODEGEN to OFF to force codegen to build locally.")
-		# have to run file(DOWNLOAD) twice to check if it exists first because
-		# cmake is silly and fails the entire configure even if i have STATUS set
-		file(DOWNLOAD
-			https://github.com/geode-sdk/bindings/releases/download/codegen/${GEODE_CODEGEN_DOWNLOAD_FILE_NAME}
-			STATUS GEODE_CODEGEN_DOWNLOAD_STATUS
-		)
-		list(GET GEODE_CODEGEN_DOWNLOAD_STATUS 0 GEODE_CODEGEN_DOWNLOAD_STATUS_CODE)
-		if (${GEODE_CODEGEN_DOWNLOAD_STATUS_CODE} EQUAL 0)
-			file(MAKE_DIRECTORY ${GEODE_CODEGEN_BINARY_OUT})
-			file(DOWNLOAD
-				https://github.com/geode-sdk/bindings/releases/download/codegen/${GEODE_CODEGEN_DOWNLOAD_FILE_NAME}
-				${GEODE_CODEGEN_BINARY_OUT}/${GEODE_CODEGEN_TARGET_FILE_NAME}
-				STATUS GEODE_CODEGEN_DOWNLOAD_STATUS
-			)
-			list(GET GEODE_CODEGEN_DOWNLOAD_STATUS 0 GEODE_CODEGEN_DOWNLOAD_STATUS_CODE)
+		# check if it's already been downloaded, only redownload if over a day old
+		set(GEODE_CODEGEN_BINARY_PATH ${GEODE_CODEGEN_BINARY_OUT}/${GEODE_CODEGEN_TARGET_FILE_NAME})
+
+		if (EXISTS ${GEODE_CODEGEN_BINARY_PATH})
+			file(TIMESTAMP ${GEODE_CODEGEN_BINARY_PATH} GEODE_CODEGEN_FILE_LAST_MODIFIED "%s" UTC)
+			string(TIMESTAMP GEODE_CODEGEN_CURRENT_TIME "%s" UTC)
+			math(EXPR GEODE_CODEGEN_FILE_AGE "${GEODE_CODEGEN_CURRENT_TIME} - ${GEODE_CODEGEN_FILE_LAST_MODIFIED}")
+		else()
+			math(EXPR GEODE_CODEGEN_FILE_AGE "${GEODE_CODEGEN_MAX_AGE}+1")
 		endif()
-		if (${GEODE_CODEGEN_DOWNLOAD_STATUS_CODE} EQUAL 0)
-			file(
-				CHMOD ${GEODE_CODEGEN_BINARY_OUT}/${GEODE_CODEGEN_TARGET_FILE_NAME}
-				PERMISSIONS
-					OWNER_READ OWNER_WRITE OWNER_EXECUTE
-					GROUP_READ GROUP_WRITE GROUP_EXECUTE
-					WORLD_READ WORLD_WRITE WORLD_EXECUTE
-			)
-			message(STATUS "Downloading Codegen - success")
+
+		message(VERBOSE "Codegen file age: ${GEODE_CODEGEN_FILE_AGE}s / max age: ${GEODE_CODEGEN_MAX_AGE}s")
+
+		if (GEODE_CODEGEN_FILE_AGE LESS GEODE_CODEGEN_MAX_AGE)
+			message(STATUS "Using cached Codegen")
 			set(SKIP_BUILDING_CODEGEN ON)
 		else()
-			list(GET GEODE_CODEGEN_DOWNLOAD_STATUS 1 GEODE_CODEGEN_DOWNLOAD_STATUS_MESSAGE)
-			message(STATUS "Downloading Codegen - fail: ${GEODE_CODEGEN_DOWNLOAD_STATUS_MESSAGE}")
-			set(SKIP_BUILDING_CODEGEN OFF)
+			message(STATUS "Downloading Codegen")
+			message(NOTICE "Set SKIP_BUILDING_CODEGEN to OFF to force codegen to build locally.")
+
+			file(MAKE_DIRECTORY ${GEODE_CODEGEN_BINARY_OUT})
+			geode_download_codegen(
+				https://github.com/geode-sdk/bindings/releases/download/codegen/${GEODE_CODEGEN_DOWNLOAD_FILE_NAME}
+				${GEODE_CODEGEN_BINARY_PATH}
+			)
 		endif()
 	else()
 		set(SKIP_BUILDING_CODEGEN OFF)
@@ -153,24 +174,43 @@ add_custom_command(
 
 if (GEODE_IS_MEMBER_TEST)
 	set(GEODE_MEMBER_TEST_CODEGEN_PATH ${GEODE_CODEGEN_PATH} PARENT_SCOPE)
+	set(GEODE_MEMBER_TEST_BINDINGS_PATH ${GEODE_BINDINGS_PATH} PARENT_SCOPE)
 	return()
 endif()
 
-add_library(${PROJECT_NAME} ${GEODE_CODEGEN_PATH}/Geode/GeneratedSource.cpp)
-target_include_directories(${PROJECT_NAME} PUBLIC
+if (GEODE_BUILDING_DOCS)
+	set(GEODE_INCLUDE_SYSTEM_SPECIFIER "")
+else()
+	set(GEODE_INCLUDE_SYSTEM_SPECIFIER SYSTEM)
+endif()
+
+file(GLOB GEODE_INLINE_SOURCES ${GEODE_BINDINGS_PATH}/inline/*.cpp)
+file(GLOB GEODE_GENERATED_SOURCES ${GEODE_CODEGEN_PATH}/Geode/source/*.cpp)
+
+
+add_library(${PROJECT_NAME} ${GEODE_CODEGEN_PATH}/Geode/GeneratedSource.cpp ${GEODE_INLINE_SOURCES} ${GEODE_GENERATED_SOURCES})
+target_include_directories(${PROJECT_NAME} ${GEODE_INCLUDE_SYSTEM_SPECIFIER} PUBLIC
 	${GEODE_CODEGEN_PATH}
 )
 
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    UNITY_BUILD ON
+    UNITY_BUILD_BATCH_SIZE 128
+)
+
 if (NOT BINDINGS_VERSIONED_ONLY)
-	target_include_directories(${PROJECT_NAME} PUBLIC
+	target_include_directories(${PROJECT_NAME} ${GEODE_INCLUDE_SYSTEM_SPECIFIER} PUBLIC
 		${CMAKE_CURRENT_SOURCE_DIR}/bindings/include
 	)
 endif()
 
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_VISIBILITY_PRESET hidden)
-target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_23)
+
+target_compile_definitions(${PROJECT_NAME} PUBLIC GEODE_COMP_GD_VERSION=${GEODE_COMP_GD_VERSION})
 
 if (WIN32)
+	target_compile_definitions(${PROJECT_NAME} PUBLIC -DNOMINMAX)
 	if (MSVC)
 		target_compile_options(${PROJECT_NAME} PUBLIC /bigobj)
 	endif()

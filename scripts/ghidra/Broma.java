@@ -326,7 +326,7 @@ public class Broma {
         public final List<Function> functions;
         public final List<Member> members;
         public final Range beforeClosingBrace;
-        public final boolean hasBases;
+        public final Optional<Match> bases;
 
         private Class(Broma broma, Platform platform, Matcher matcher) {
             super(broma, matcher);
@@ -335,7 +335,7 @@ public class Broma {
             functions = new ArrayList<Function>();
             members = new ArrayList<Member>();
             beforeClosingBrace = new Range(matcher.start("closingbrace"), matcher.start("closingbrace"));
-            hasBases = matcher.group("bases") != null;
+            bases = Match.maybe(broma, matcher, "bases");
 
             // Check if this class is linked
             var attrs = matcher.group("attrs");
@@ -399,15 +399,17 @@ public class Broma {
         }
         return matcher;
     }
-    private void applyRegexes(Platform platform) {
+    private void applyRegexes(Platform platform, boolean importGlobals) {
         var matcher = Regexes.GRAB_CLASS.matcher(this.data);
         while (matcher.find()) {
             this.classes.add(new Class(this, platform, matcher));
         }
 
-        var funMatcher = Regexes.GRAB_GLOBAL_FUNCTION.matcher(this.data);
-        while (funMatcher.find()) {
-            this.functions.add(new Function(this, null, platform, funMatcher));
+        if (importGlobals) {
+            var funMatcher = Regexes.GRAB_GLOBAL_FUNCTION.matcher(this.data);
+            while (funMatcher.find()) {
+                this.functions.add(new Function(this, null, platform, funMatcher));
+            }
         }
     }
 
@@ -444,13 +446,13 @@ public class Broma {
      * @param path Path to the Broma file
      * @throws IOException
      */
-    public Broma(Path path, Platform platform) throws IOException {
+    public Broma(Path path, Platform platform, boolean importGlobals) throws IOException {
         this.path = path;
         data = Files.readString(path);
         patches = new ArrayList<Patch>();
         classes = new ArrayList<Class>();
         functions = new ArrayList<Function>();
-        this.applyRegexes(platform);
+        this.applyRegexes(platform, importGlobals);
     }
 
     /**

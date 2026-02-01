@@ -4208,8 +4208,8 @@ class GJScoreCell : TableViewCell {
 	// virtual ~GJScoreCell();
 	GJScoreCell(char const*, float, float);
 
-	void loadFromScore(GJUserScore*) = win 0x355f0;
-	void onMoreLevels(cocos2d::CCObject* sender) = win 0x36070;
+	void loadFromScore(GJUserScore*);
+	void onMoreLevels(cocos2d::CCObject* sender);
 	TodoReturn updateBGColor(int);
 
 	virtual bool init();
@@ -4965,12 +4965,12 @@ class LevelSearchLayer : cocos2d::CCLayer, TextInputDelegate, FLAlertLayerProtoc
 
 	TodoReturn checkDiff(int);
 	TodoReturn checkTime(int);
-	void clearFilters() = win 0xa1000;
+	void clearFilters();
 	TodoReturn confirmClearFilters(cocos2d::CCObject*);
 	TodoReturn getDiffKey(int);
 	TodoReturn getLevelLenKey();
 	TodoReturn getSearchDiffKey();
-	GJSearchObject* getSearchObject(SearchType, gd::string) = win 0xa1b30;
+	GJSearchObject* getSearchObject(SearchType, gd::string);
 	TodoReturn getTimeKey(int);
 	void onBack(cocos2d::CCObject* sender);
 	void onClose(cocos2d::CCObject* sender);
@@ -4990,12 +4990,12 @@ class LevelSearchLayer : cocos2d::CCLayer, TextInputDelegate, FLAlertLayerProtoc
 	TodoReturn toggleTimeNum(int, bool);
 	TodoReturn updateSearchLabel(char const*);
 
-	virtual bool init() = win 0x9f830;
+	virtual bool init();
 	virtual void keyBackClicked();
 	virtual void textInputOpened(CCTextInputNode*);
 	virtual void textInputClosed(CCTextInputNode*);
 	virtual void textChanged(CCTextInputNode*);
-	virtual void FLAlert_Clicked(FLAlertLayer*, bool) = win 0xa1700;
+	virtual void FLAlert_Clicked(FLAlertLayer*, bool);
 }
 
 [[link(android)]]

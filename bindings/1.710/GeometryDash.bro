@@ -1,6 +1,11 @@
 // clang-format off
 
 [[link(android)]]
+class BoomListView : cocos2d::CCLayer, TableViewDelegate, TableViewDataSource {
+	// add functions
+}
+
+[[link(android)]]
 class CCMenuItemSpriteExtra : cocos2d::CCMenuItemSprite {
 	static CCMenuItemSpriteExtra* create(cocos2d::CCNode*, cocos2d::CCNode*, cocos2d::CCObject*, cocos2d::SEL_MenuHandler);
 }
@@ -12,6 +17,12 @@ class CCMenuItemToggler : cocos2d::CCMenuItem {
 
 [[link(android)]]
 class CCTextInputNode : cocos2d::CCLayer, cocos2d::CCIMEDelegate, cocos2d::CCTextFieldDelegate {
+	// add functions
+	virtual void textChanged();
+}
+
+[[link(android)]]
+class CustomListView : BoomListView {
 	// add functions
 }
 
@@ -67,6 +78,16 @@ class MenuLayer : cocos2d::CCLayer, FLAlertLayerProtocol, GooglePlayDelegate {
 	virtual void keyBackClicked();
 	virtual void googlePlaySignedIn();
 	virtual void FLAlert_Clicked(FLAlertLayer*, bool);
+}
+
+[[link(android)]]
+class TableViewDataSource {
+	// add functions
+}
+
+[[link(android)]]
+class TableViewDelegate {
+	// add functions
 }
 
 [[link(android)]]

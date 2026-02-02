@@ -119,6 +119,7 @@ class FLAlertLayerProtocol {
 
 [[link(android)]]
 class GameManager : GManager {
+	static GameManager* sharedState();
 
 	PlayLayer* m_playLayer;
 }
@@ -132,6 +133,8 @@ class GJDropDownLayer : cocos2d::CCLayerColor {
 
 [[link(android)]]
 class GJGameLevel : cocos2d::CCNode {
+	
+	int m_stars;
 }
 
 [[link(android)]]
@@ -154,6 +157,19 @@ class LevelDeleteDelegate {
 [[link(android)]]
 class LevelInfoLayer : cocos2d::CCLayer, LevelDownloadDelegate, LevelUpdateDelegate, RateLevelDelegate, LikeItemDelegate, FLAlertLayerProtocol, LevelDeleteDelegate, NumberInputDelegate {
 	// add functions
+	bool init(GJGameLevel*);
+	void setupProgressBars();
+
+	GJGameLevel* m_level;
+	cocos2d::CCLabelBMFont* m_lengthLabel;
+	cocos2d::CCLabelBMFont* m_downloadsLabel;
+	cocos2d::CCLabelBMFont* m_likesLabel;
+	cocos2d::CCSprite* m_likesIcon;
+	LoadingCircle* m_loadingCircle;
+	cocos2d::CCSprite* m_difficultyIcon;
+	cocos2d::CCSprite* m_starIcon;
+	cocos2d::CCLabelBMFont* m_starsLabel;
+	cocos2d::CCSprite* m_featuredCoin;
 }
 
 [[link(android)]]
@@ -228,10 +244,16 @@ class NumberInputDelegate {
 
 [[link(android)]]
 class OptionsLayer : GJDropDownLayer, FLAlertLayerProtocol, GooglePlayDelegate {
+	virtual void customSetup();
 }
 
 [[link(android)]]
 class PauseLayer : CCBlockLayer {
+	virtual void customSetup();
+}
+
+[[link(android)]]
+class PlatformToolbox {
 }
 
 [[link(android)]]

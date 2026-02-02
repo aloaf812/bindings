@@ -281,6 +281,10 @@ class LevelInfoLayer : cocos2d::CCLayer, LevelDownloadDelegate, LevelUpdateDeleg
 }
 
 [[link(android)]]
+class LevelManagerDelegate {
+}
+
+[[link(android)]]
 class LevelPage : cocos2d::CCLayer {
 	void onPlay(cocos2d::CCObject* sender);
 }

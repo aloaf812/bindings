@@ -231,7 +231,7 @@ class PauseLayer : CCBlockLayer {
 }
 
 [[link(android)]]
-class PlayLayer : cocos2d::CCLayer : CCCircleWaveDelegate {
+class PlayLayer : cocos2d::CCLayer, CCCircleWaveDelegate {
 
 	GJGameLevel* m_level;
 }

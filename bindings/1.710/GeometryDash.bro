@@ -3,8 +3,8 @@
 [[link(android)]]
 class AchievementNotifier : cocos2d::CCNode {
 	// add functions
-	static AchievementNotifier* sharedState()
-	
+	static AchievementNotifier* sharedState();
+
 	void willSwitchToScene(cocos2d::CCScene*);
 }
 

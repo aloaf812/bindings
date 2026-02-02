@@ -49,6 +49,9 @@ class CCIndexPath : cocos2d::CCObject {
 [[link(android)]]
 class CCMenuItemSpriteExtra : cocos2d::CCMenuItemSprite {
 	static CCMenuItemSpriteExtra* create(cocos2d::CCNode*, cocos2d::CCNode*, cocos2d::CCObject*, cocos2d::SEL_MenuHandler);
+	static CCMenuItemSpriteExtra* create(cocos2d::CCNode* sprite, cocos2d::CCObject* target, cocos2d::SEL_MenuHandler callback) {
+		return CCMenuItemSpriteExtra::create(sprite, nullptr, target, callback);
+	}
 
 	float m_baseScale; // m_originalScale
 }
@@ -56,6 +59,23 @@ class CCMenuItemSpriteExtra : cocos2d::CCMenuItemSprite {
 [[link(android)]]
 class CCMenuItemToggler : cocos2d::CCMenuItem {
 	static CCMenuItemToggler* create(cocos2d::CCNode*, cocos2d::CCNode*, cocos2d::CCObject*, cocos2d::SEL_MenuHandler);
+
+	static CCMenuItemToggler* createWithStandardSprites(cocos2d::CCObject* target, cocos2d::SEL_MenuHandler callback, float scale) {
+		auto sprOff = cocos2d::CCSprite::createWithSpriteFrameName("GJ_checkOff_001.png");
+		auto sprOn = cocos2d::CCSprite::createWithSpriteFrameName("GJ_checkOn_001.png");
+
+		sprOff->setScale(scale);
+		sprOn->setScale(scale);
+
+		return create(sprOff, sprOn, target, callback);
+	}
+
+	void toggle(bool);
+	
+	CCMenuItemSpriteExtra* m_offButton; // m_normalButton
+	CCMenuItemSpriteExtra* m_onButton; // m_selectedButton
+	bool m_toggled; // m_isActive
+	bool m_notClickable; // m_dontToggle
 }
 
 [[link(android), depends(CCIndexPath)]]

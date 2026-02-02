@@ -27,6 +27,12 @@ class ButtonSprite : cocos2d::CCSprite {
 	// add functions
 	static ButtonSprite* create(char const* caption);
 	static ButtonSprite* create(char const* caption, const char* font, const char* texture, float scale);
+	static ButtonSprite* create(cocos2d::CCSprite*, int, int, float, float, bool, char const*);
+
+	void setString(char const*);
+
+	cocos2d::CCLabelBMFont* m_label;
+	cocos2d::extension::CCScale9Sprite* m_bgSprite;
 }
 
 [[link(android)]]
@@ -127,9 +133,26 @@ class FileOperation {
 
 [[link(android)]]
 class FLAlertLayer : cocos2d::CCLayerColor {
+
+	FLAlertLayer() {
+		m_buttonMenu = nullptr;
+		/*m_controlConnected = -1;
+		m_ZOrder = 0;
+		m_alertProtocol = nullptr;
+		m_scene = nullptr;
+		m_reverseKeyBack = false;*/
+		m_mainLayer = nullptr;
+		/*m_scrollingLayer = nullptr;
+		m_scrollAction = -1;
+		m_containsBorder = false;
+		m_noAction = false;*/
+	}
 	// add functions
 	static FLAlertLayer* create(FLAlertLayerProtocol* delegate, char const* title, char const* desc, char const* btn1, char const* btn2);
 	static FLAlertLayer* create(FLAlertLayerProtocol* delegate, char const* title, char const* desc, char const* btn1, char const* btn2, float width);
+	static FLAlertLayer* create(char const* title, const char* desc, char const* btn) {
+		return FLAlertLayer::create(nullptr, title, desc, btn, nullptr, 300.0f);
+	}
 	virtual void show();
 
 	cocos2d::CCMenu* m_buttonMenu;

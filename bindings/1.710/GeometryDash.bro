@@ -67,6 +67,8 @@ class CCTableViewCell : cocos2d::CCLayer {
 class CCTextInputNode : cocos2d::CCLayer, cocos2d::CCIMEDelegate, cocos2d::CCTextFieldDelegate {
 	// add functions
 	virtual void textChanged();
+
+	TextInputDelegate* m_delegate;
 }
 
 [[link(android)]]
@@ -123,7 +125,7 @@ class GameManager : GManager {
 
 	bool getGameVariable(char const*);
 
-	
+
 	PlayLayer* m_playLayer;
 	bool m_clickedEditor;
 	bool m_clickedGarage;

@@ -151,6 +151,12 @@ class TableViewDelegate {
 }
 
 [[link(android)]]
+class TextArea : cocos2d::CCSprite {
+	// add functions
+	static TextArea* create(char const* str, float width, int, cocos2d::CCPoint anchor, char const* font, float lineHeight);
+}
+
+[[link(android)]]
 class TextInputDelegate {
 	// add functions
 	virtual void textChanged(CCTextInputNode*);

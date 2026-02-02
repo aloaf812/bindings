@@ -26,6 +26,7 @@ class CCMenuItemToggler : cocos2d::CCMenuItem {
 
 [[link(android), depends(CCIndexPath)]]
 class CCTableViewCell : cocos2d::CCLayer {
+	// add functions
 }
 
 [[link(android)]]
@@ -43,7 +44,7 @@ class CCScrollLayerExt : cocos2d::CCLayer {
 class CustomListView : BoomListView {
 	virtual void setupList();
 	virtual CCTableViewCell* getListCell(char const*);
-	virtual void loadCell(CCTableViewCell*, int)
+	virtual void loadCell(CCTableViewCell*, int);
 	// add functions
 }
 

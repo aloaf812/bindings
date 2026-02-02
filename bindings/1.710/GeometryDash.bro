@@ -6,6 +6,11 @@ class CCMenuItemSpriteExtra : cocos2d::CCMenuItemSprite {
 }
 
 [[link(android)]]
+class CCMenuItemToggler : cocos2d::CCMenuItem {
+	// add members
+}
+
+[[link(android)]]
 class FLAlertLayer : cocos2d::CCLayerColor {
 	// add functions
 }

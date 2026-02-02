@@ -101,6 +101,10 @@ class FLAlertLayerProtocol {
 }
 
 [[link(android)]]
+class GJDropDownLayer : cocos2d::CCLayerColor {
+}
+
+[[link(android)]]
 class GooglePlayDelegate {
 	virtual void googlePlaySignedIn();
 }

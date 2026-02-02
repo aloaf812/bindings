@@ -28,6 +28,10 @@ class ButtonSprite : cocos2d::CCSprite {
 	static ButtonSprite* create(char const* caption);
 	static ButtonSprite* create(char const* caption, const char* font, const char* texture, float scale);
 	static ButtonSprite* create(cocos2d::CCSprite*, int, int, float, float, bool, char const*);
+		static ButtonSprite* create(const char* caption, int width, bool absolute, const char* font, const char* texture, float height, float scale) {
+		return create(caption, width, 0, scale, absolute, font, texture, height);
+	}
+	static ButtonSprite* create(char const*, int, int, float, bool, char const*, char const*, float);
 
 	void setString(char const*);
 
@@ -156,6 +160,7 @@ class FLAlertLayer : cocos2d::CCLayerColor {
 	virtual void show();
 
 	cocos2d::CCMenu* m_buttonMenu;
+	cocos2d::CCNode* m_scene; // m_targetScene
 	CCLayer* m_mainLayer;
 }
 

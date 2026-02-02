@@ -7,12 +7,15 @@ class CCMenuItemSpriteExtra : cocos2d::CCMenuItemSprite {
 
 [[link(android)]]
 class CCMenuItemToggler : cocos2d::CCMenuItem {
-	// add members
+	static CCMenuItemToggler* create(cocos2d::CCNode*, cocos2d::CCNode*, cocos2d::CCObject*, cocos2d::SEL_MenuHandler);
 }
 
 [[link(android)]]
 class FLAlertLayer : cocos2d::CCLayerColor {
 	// add functions
+
+	cocos2d::CCMenu* m_buttonMenu;
+	CCLayer* m_mainLayer;
 }
 
 [[link(android)]]
@@ -59,4 +62,9 @@ class MenuLayer : cocos2d::CCLayer, FLAlertLayerProtocol, GooglePlayDelegate {
 	virtual void keyBackClicked();
 	virtual void googlePlaySignedIn();
 	virtual void FLAlert_Clicked(FLAlertLayer*, bool);
+}
+
+[[link(android)]]
+class TextInputDelegate {
+	// add functions
 }

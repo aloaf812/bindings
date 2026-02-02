@@ -83,6 +83,12 @@ class LevelPage : cocos2d::CCLayer {
 class LoadingLayer : cocos2d::CCLayer {
 	// add other functions
 	bool init();
+	void loadAssets();
+
+	int m_loadStep;
+	cocos2d::CCSprite* m_sliderBar;
+	float m_sliderGrooveXPos;
+	float m_sliderGrooveHeight;
 }
 
 [[link(android)]]
@@ -119,6 +125,19 @@ class MenuLayer : cocos2d::CCLayer, FLAlertLayerProtocol, GooglePlayDelegate {
 	virtual void keyBackClicked();
 	virtual void googlePlaySignedIn();
 	virtual void FLAlert_Clicked(FLAlertLayer*, bool);
+}
+
+[[link(android), depends(SliderTouchLogic)]]
+class Slider : cocos2d::CCLayer {
+	static Slider* create(cocos2d::CCNode* target, cocos2d::SEL_MenuHandler handler);
+}
+
+[[link(android)]]
+class SliderThumb : cocos2d::CCMenuItemImage {
+}
+
+[[link(android), depends(SliderThumb)]]
+class SliderTouchLogic : cocos2d::CCMenu {
 }
 
 [[link(android)]]

@@ -57,6 +57,10 @@ class CCIndexPath : cocos2d::CCObject {
 }
 
 [[link(android)]]
+class CCLightFlash : cocos2d::CCNode {
+}
+
+[[link(android)]]
 class CCMenuItemSpriteExtra : cocos2d::CCMenuItemSprite {
 	static CCMenuItemSpriteExtra* create(cocos2d::CCNode*, cocos2d::CCNode*, cocos2d::CCObject*, cocos2d::SEL_MenuHandler);
 	static CCMenuItemSpriteExtra* create(cocos2d::CCNode* sprite, cocos2d::CCObject* target, cocos2d::SEL_MenuHandler callback) {

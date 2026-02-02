@@ -6,6 +6,11 @@ class BoomListView : cocos2d::CCLayer, TableViewDelegate, TableViewDataSource {
 }
 
 [[link(android)]]
+class BoomScrollLayerDelegate {
+	// add functions
+}
+
+[[link(android)]]
 class ButtonSprite : cocos2d::CCSprite {
 	// add functions
 	static ButtonSprite* create(char const* caption, const char* font, const char* texture, float scale);

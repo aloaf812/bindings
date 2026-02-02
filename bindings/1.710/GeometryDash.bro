@@ -6,6 +6,10 @@ class BoomListView : cocos2d::CCLayer, TableViewDelegate, TableViewDataSource {
 }
 
 [[link(android)]]
+class CCIndexPath : cocos2d::CCObject {
+}
+
+[[link(android)]]
 class CCMenuItemSpriteExtra : cocos2d::CCMenuItemSprite {
 	static CCMenuItemSpriteExtra* create(cocos2d::CCNode*, cocos2d::CCNode*, cocos2d::CCObject*, cocos2d::SEL_MenuHandler);
 }
@@ -93,4 +97,5 @@ class TableViewDelegate {
 [[link(android)]]
 class TextInputDelegate {
 	// add functions
+	virtual void textChanged(CCTextInputNode*);
 }

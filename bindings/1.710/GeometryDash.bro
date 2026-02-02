@@ -6,6 +6,12 @@ class BoomListView : cocos2d::CCLayer, TableViewDelegate, TableViewDataSource {
 }
 
 [[link(android)]]
+class ButtonSprite : cocos2d::CCSprite {
+	// add functions
+	static ButtonSprite* create(char const* caption, const char* font, const char* texture, float scale);
+}
+
+[[link(android)]]
 class CCContentLayer : cocos2d::CCLayerColor {
 	// add functions
 }
@@ -66,6 +72,17 @@ class FLAlertLayerProtocol {
 [[link(android)]]
 class GooglePlayDelegate {
 	virtual void googlePlaySignedIn();
+}
+
+[[link(android)]]
+class LevelPage : cocos2d::CCLayer {
+	void onPlay(cocos2d::CCObject* sender);
+}
+
+[[link(android)]]
+class LoadingLayer : cocos2d::CCLayer {
+	// add other functions
+	bool init();
 }
 
 [[link(android)]]

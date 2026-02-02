@@ -30,6 +30,10 @@ class ButtonSprite : cocos2d::CCSprite {
 }
 
 [[link(android)]]
+class CCBlockLayer : cocos2d::CCLayerColor {
+}
+
+[[link(android)]]
 class CCCircleWaveDelegate {
 }
 

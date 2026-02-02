@@ -76,6 +76,7 @@ class CustomListView : BoomListView {
 
 [[link(android)]]
 class EditLevelLayer : cocos2d::CCLayer, TextInputDelegate, FLAlertLayerProtocol {
+	bool init(GJGameLevel*);
 	// add functions
 }
 
@@ -84,6 +85,12 @@ class EndLevelLayer : GJDropDownLayer {
 	virtual void customSetup();
 	virtual void showLayer(bool);
 	// add functions
+
+	cocos2d::CCArray* m_coinEffects;
+}
+
+[[link(android)]]
+class FileOperation {
 }
 
 [[link(android)]]

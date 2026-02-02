@@ -81,6 +81,8 @@ class EditLevelLayer : cocos2d::CCLayer, TextInputDelegate, FLAlertLayerProtocol
 
 [[link(android)]]
 class EndLevelLayer : GJDropDownLayer {
+	virtual void customSetup();
+	virtual void showLayer(bool);
 	// add functions
 }
 
@@ -102,6 +104,13 @@ class FLAlertLayerProtocol {
 
 [[link(android)]]
 class GJDropDownLayer : cocos2d::CCLayerColor {
+	// add functions
+
+	cocos2d::CCLayer* m_mainLayer; // m_internalLayer
+}
+
+[[link(android)]]
+class GJGameLevel : cocos2d::CCNode {
 }
 
 [[link(android)]]

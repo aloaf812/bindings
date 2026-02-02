@@ -208,6 +208,10 @@ class GameObject : CCSpritePlus {
 }
 
 [[link(android)]]
+class GameRateDelegate {
+}
+
+[[link(android)]]
 class GameToolbox {
 }
 

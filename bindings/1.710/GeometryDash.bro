@@ -44,6 +44,10 @@ class CCBlockLayer : cocos2d::CCLayerColor {
 }
 
 [[link(android)]]
+class CCCircleWave : cocos2d::CCNode {
+}
+
+[[link(android)]]
 class CCCircleWaveDelegate {
 }
 
@@ -92,9 +96,24 @@ class CCMenuItemToggler : cocos2d::CCMenuItem {
 	bool m_notClickable; // m_dontToggle
 }
 
+[[link(android)]]
+class CCScrollLayerExt : cocos2d::CCLayer {
+	// add functions
+}
+
+[[link(android)]]
+class CCSpritePlus : cocos2d::CCSprite {
+}
+
+[[link(android)]]
+class CCTableView : CCScrollLayerExt, CCScrollLayerExtDelegate {
+}
+
 [[link(android), depends(CCIndexPath)]]
 class CCTableViewCell : cocos2d::CCLayer {
 	// add functions
+	
+	CCTableView* m_tableView;
 }
 
 [[link(android)]]
@@ -105,11 +124,6 @@ class CCTextInputNode : cocos2d::CCLayer, cocos2d::CCIMEDelegate, cocos2d::CCTex
 	bool m_selected;
 	TextInputDelegate* m_delegate;
 	cocos2d::CCLabelBMFont* m_textLabel;
-}
-
-[[link(android)]]
-class CCScrollLayerExt : cocos2d::CCLayer {
-	// add functions
 }
 
 [[link(android)]]
@@ -186,6 +200,14 @@ class GameManager : GManager {
 }
 
 [[link(android)]]
+class GameObject : CCSpritePlus {
+}
+
+[[link(android)]]
+class GameToolbox {
+}
+
+[[link(android)]]
 class GJDropDownLayer : cocos2d::CCLayerColor {
 	// add functions
 
@@ -200,7 +222,15 @@ class GJGameLevel : cocos2d::CCNode {
 }
 
 [[link(android)]]
+class GJGarageLayer : cocos2d::CCLayer, TextInputDelegate, FLAlertLayerProtocol, GameRateDelegate {
+}
+
+[[link(android)]]
 class GJListLayer : cocos2d::CCLayerColor {
+}
+
+[[link(android)]]
+class GJSearchObject : cocos2d::CCNode {
 }
 
 [[link(android)]]
@@ -210,6 +240,10 @@ class GManager : cocos2d::CCNode {
 [[link(android)]]
 class GooglePlayDelegate {
 	virtual void googlePlaySignedIn();
+}
+
+[[link(android)]]
+class LevelBrowserLayer : cocos2d::CCLayer, LevelManagerDelegate {
 }
 
 [[link(android)]]

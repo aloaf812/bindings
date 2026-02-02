@@ -6,6 +6,11 @@ class BoomListView : cocos2d::CCLayer, TableViewDelegate, TableViewDataSource {
 }
 
 [[link(android)]]
+class CCContentLayer : cocos2d::CCLayerColor {
+	// add functions
+}
+
+[[link(android)]]
 class CCIndexPath : cocos2d::CCObject {
 }
 
@@ -30,7 +35,15 @@ class CCTextInputNode : cocos2d::CCLayer, cocos2d::CCIMEDelegate, cocos2d::CCTex
 }
 
 [[link(android)]]
+class CCScrollLayerExt : cocos2d::CCLayer {
+	// add functions
+}
+
+[[link(android)]]
 class CustomListView : BoomListView {
+	virtual void setupList();
+	virtual CCTableViewCell* getListCell(char const*);
+	virtual void loadCell(CCTableViewCell*, int)
 	// add functions
 }
 

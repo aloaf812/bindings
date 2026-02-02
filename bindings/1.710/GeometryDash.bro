@@ -30,6 +30,10 @@ class ButtonSprite : cocos2d::CCSprite {
 }
 
 [[link(android)]]
+class CCCircleWaveDelegate {
+}
+
+[[link(android)]]
 class CCContentLayer : cocos2d::CCLayerColor {
 	// add functions
 }
@@ -110,6 +114,12 @@ class FLAlertLayerProtocol {
 }
 
 [[link(android)]]
+class GameManager : GManager {
+
+	PlayLayer* m_playLayer;
+}
+
+[[link(android)]]
 class GJDropDownLayer : cocos2d::CCLayerColor {
 	// add functions
 
@@ -121,8 +131,25 @@ class GJGameLevel : cocos2d::CCNode {
 }
 
 [[link(android)]]
+class GManager : cocos2d::CCNode {
+}
+
+[[link(android)]]
 class GooglePlayDelegate {
 	virtual void googlePlaySignedIn();
+}
+
+[[link(android)]]
+class LevelDownloadDelegate {
+}
+
+[[link(android)]]
+class LevelDeleteDelegate {
+}
+
+[[link(android)]]
+class LevelInfoLayer : cocos2d::CCLayer, LevelDownloadDelegate, LevelUpdateDelegate, RateLevelDelegate, LikeItemDelegate, FLAlertLayerProtocol, LevelDeleteDelegate, NumberInputDelegate {
+	// add functions
 }
 
 [[link(android)]]
@@ -133,6 +160,14 @@ class LevelPage : cocos2d::CCLayer {
 [[link(android)]]
 class LevelSelectLayer : cocos2d::CCLayer, BoomScrollLayerDelegate {
 	// add functions
+}
+
+[[link(android)]]
+class LevelUpdateDelegate {
+}
+
+[[link(android)]]
+class LikeItemDelegate {
 }
 
 [[link(android)]]
@@ -181,6 +216,28 @@ class MenuLayer : cocos2d::CCLayer, FLAlertLayerProtocol, GooglePlayDelegate {
 	virtual void keyBackClicked();
 	virtual void googlePlaySignedIn();
 	virtual void FLAlert_Clicked(FLAlertLayer*, bool);
+}
+
+[[link(android)]]
+class NumberInputDelegate {
+}
+
+[[link(android)]]
+class OptionsLayer : GJDropDownLayer, FLAlertLayerProtocol, GooglePlayDelegate {
+}
+
+[[link(android)]]
+class PauseLayer : CCBlockLayer {
+}
+
+[[link(android)]]
+class PlayLayer : cocos2d::CCLayer : CCCircleWaveDelegate {
+
+	GJGameLevel* m_level;
+}
+
+[[link(android)]]
+class RateLevelDelegate {
 }
 
 [[link(android), depends(SliderTouchLogic)]]

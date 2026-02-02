@@ -102,6 +102,10 @@ class CCScrollLayerExt : cocos2d::CCLayer {
 }
 
 [[link(android)]]
+class CCScrollLayerExtDelegate {
+}
+
+[[link(android)]]
 class CCSpritePlus : cocos2d::CCSprite {
 }
 

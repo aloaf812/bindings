@@ -9,6 +9,10 @@ class AchievementNotifier : cocos2d::CCNode {
 }
 
 [[link(android)]]
+class AppDelegate : cocos2d::CCApplication, cocos2d::CCSceneDelegate {
+}
+
+[[link(android)]]
 class BoomListView : cocos2d::CCLayer, TableViewDelegate, TableViewDataSource {
 	// add functions
 }
@@ -67,6 +71,16 @@ class CustomListView : BoomListView {
 	virtual void setupList();
 	virtual CCTableViewCell* getListCell(char const*);
 	virtual void loadCell(CCTableViewCell*, int);
+	// add functions
+}
+
+[[link(android)]]
+class EditLevelLayer : cocos2d::CCLayer, TextInputDelegate, FLAlertLayerProtocol {
+	// add functions
+}
+
+[[link(android)]]
+class EndLevelLayer : GJDropDownLayer {
 	// add functions
 }
 

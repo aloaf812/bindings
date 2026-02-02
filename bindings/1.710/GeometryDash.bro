@@ -68,7 +68,9 @@ class CCTextInputNode : cocos2d::CCLayer, cocos2d::CCIMEDelegate, cocos2d::CCTex
 	// add functions
 	virtual void textChanged();
 
+	bool m_selected;
 	TextInputDelegate* m_delegate;
+	cocos2d::CCLabelBMFont* m_textLabel;
 }
 
 [[link(android)]]
@@ -285,14 +287,19 @@ class RateLevelDelegate {
 [[link(android), depends(SliderTouchLogic)]]
 class Slider : cocos2d::CCLayer {
 	static Slider* create(cocos2d::CCNode* target, cocos2d::SEL_MenuHandler handler);
+	void setValue(float);
+
+	SliderTouchLogic* m_touchLogic;
 }
 
 [[link(android)]]
 class SliderThumb : cocos2d::CCMenuItemImage {
+	float getValue();
 }
 
 [[link(android), depends(SliderThumb)]]
 class SliderTouchLogic : cocos2d::CCMenu {
+	SliderThumb* m_thumb;
 }
 
 [[link(android)]]

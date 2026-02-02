@@ -19,6 +19,10 @@ class CCMenuItemToggler : cocos2d::CCMenuItem {
 	static CCMenuItemToggler* create(cocos2d::CCNode*, cocos2d::CCNode*, cocos2d::CCObject*, cocos2d::SEL_MenuHandler);
 }
 
+[[link(android), depends(CCIndexPath)]]
+class CCTableViewCell : cocos2d::CCLayer {
+}
+
 [[link(android)]]
 class CCTextInputNode : cocos2d::CCLayer, cocos2d::CCIMEDelegate, cocos2d::CCTextFieldDelegate {
 	// add functions

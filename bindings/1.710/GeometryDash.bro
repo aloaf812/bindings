@@ -191,6 +191,10 @@ class LikeItemDelegate {
 }
 
 [[link(android)]]
+class LoadingCircle : cocos2d::CCLayerColor {
+}
+
+[[link(android)]]
 class LoadingLayer : cocos2d::CCLayer {
 	// add other functions
 	bool init();

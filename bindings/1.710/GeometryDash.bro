@@ -17,6 +17,8 @@ class CCIndexPath : cocos2d::CCObject {
 [[link(android)]]
 class CCMenuItemSpriteExtra : cocos2d::CCMenuItemSprite {
 	static CCMenuItemSpriteExtra* create(cocos2d::CCNode*, cocos2d::CCNode*, cocos2d::CCObject*, cocos2d::SEL_MenuHandler);
+
+	float m_baseScale; // m_originalScale
 }
 
 [[link(android)]]

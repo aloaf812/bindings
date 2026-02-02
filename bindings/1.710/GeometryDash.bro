@@ -1,6 +1,12 @@
 // clang-format off
 
 [[link(android)]]
+class AchievementNotifier : cocos2d::CCNode {
+	// add functions
+	void willSwitchToScene(cocos2d::CCScene*);
+}
+
+[[link(android)]]
 class BoomListView : cocos2d::CCLayer, TableViewDelegate, TableViewDataSource {
 	// add functions
 }
@@ -13,6 +19,7 @@ class BoomScrollLayerDelegate {
 [[link(android)]]
 class ButtonSprite : cocos2d::CCSprite {
 	// add functions
+	static ButtonSprite* create(char const* caption);
 	static ButtonSprite* create(char const* caption, const char* font, const char* texture, float scale);
 }
 
@@ -64,6 +71,9 @@ class CustomListView : BoomListView {
 [[link(android)]]
 class FLAlertLayer : cocos2d::CCLayerColor {
 	// add functions
+	static FLAlertLayer* create(FLAlertLayerProtocol* delegate, char const* title, char const* desc, char const* btn1, char const* btn2);
+	static FLAlertLayer* create(FLAlertLayerProtocol* delegate, char const* title, char const* desc, char const* btn1, char const* btn2, float width);
+	virtual void show();
 
 	cocos2d::CCMenu* m_buttonMenu;
 	CCLayer* m_mainLayer;

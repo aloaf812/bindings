@@ -121,7 +121,12 @@ class FLAlertLayerProtocol {
 class GameManager : GManager {
 	static GameManager* sharedState();
 
+	bool getGameVariable(char const*);
+
+	
 	PlayLayer* m_playLayer;
+	bool m_clickedEditor;
+	bool m_clickedGarage;
 }
 
 [[link(android)]]
@@ -135,6 +140,11 @@ class GJDropDownLayer : cocos2d::CCLayerColor {
 class GJGameLevel : cocos2d::CCNode {
 	
 	int m_stars;
+	int m_originalLevel;
+}
+
+[[link(android)]]
+class GJListLayer : cocos2d::CCLayerColor {
 }
 
 [[link(android)]]

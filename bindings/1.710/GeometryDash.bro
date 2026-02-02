@@ -80,6 +80,11 @@ class LevelPage : cocos2d::CCLayer {
 }
 
 [[link(android)]]
+class LevelSelectLayer : cocos2d::CCLayer : BoomScrollLayerDelegate {
+	// add functions
+}
+
+[[link(android)]]
 class LoadingLayer : cocos2d::CCLayer {
 	// add other functions
 	bool init();

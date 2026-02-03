@@ -71,6 +71,19 @@ class CCMenuItemSpriteExtra : cocos2d::CCMenuItemSprite {
 		return CCMenuItemSpriteExtra::create(sprite, nullptr, target, callback);
 	}
 
+	/// Update the sizing of this button's image
+	/// If you for example have a `ButtonSprite` on this button and change the
+	/// text, you need to call `updateSprite` afterwards to fix the button's
+	/// content size
+	/// @note Geode addition
+	void updateSprite() {
+		auto sprite = this->getNormalImage();
+		auto size = sprite->getScaledContentSize();
+		sprite->setPosition(size / 2);
+		sprite->setAnchorPoint({ .5f, .5f });
+		this->setContentSize(size);
+	}
+
 	float m_baseScale; // m_originalScale
 }
 
@@ -99,6 +112,7 @@ class CCMenuItemToggler : cocos2d::CCMenuItem {
 [[link(android)]]
 class CCScrollLayerExt : cocos2d::CCLayer {
 	// add functions
+	void moveToTop();
 
 	cocos2d::CCLayerColor* m_contentLayer; // m_contentLayer
 }

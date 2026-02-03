@@ -415,7 +415,12 @@ class TableViewDelegate {
 [[link(android)]]
 class TextArea : cocos2d::CCSprite {
 	// add functions
+	static TextArea* create(char const* str, char const* font, float scale, float width, cocos2d::CCPoint anchor, float lineHeight) {
+		return TextArea::create(str, width, 0, anchor, font, lineHeight);
+	}
 	static TextArea* create(char const* str, float width, int, cocos2d::CCPoint anchor, char const* font, float lineHeight);
+
+	void setString(char const*);
 }
 
 [[link(android)]]

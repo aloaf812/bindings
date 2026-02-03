@@ -89,6 +89,7 @@ class CCMenuItemSpriteExtra : cocos2d::CCMenuItemSprite {
 
 [[link(android)]]
 class CCMenuItemToggler : cocos2d::CCMenuItem {
+	CCMenuItemToggler() {}
 	static CCMenuItemToggler* create(cocos2d::CCNode*, cocos2d::CCNode*, cocos2d::CCObject*, cocos2d::SEL_MenuHandler);
 
 	static CCMenuItemToggler* createWithStandardSprites(cocos2d::CCObject* target, cocos2d::SEL_MenuHandler callback, float scale) {

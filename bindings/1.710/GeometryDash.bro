@@ -66,10 +66,21 @@ class CCLightFlash : cocos2d::CCNode {
 
 [[link(android)]]
 class CCMenuItemSpriteExtra : cocos2d::CCMenuItemSprite {
+	CCMenuItemSpriteExtra() {
+		m_scaleMultiplier = 1.0f;
+		m_baseScale = 0.0f;
+		//m_animationEnabled = false;
+		m_colorEnabled = false;
+		//m_volume = 1.0f;
+		//m_clickSound = "";
+	}
+	
 	static CCMenuItemSpriteExtra* create(cocos2d::CCNode*, cocos2d::CCNode*, cocos2d::CCObject*, cocos2d::SEL_MenuHandler);
 	static CCMenuItemSpriteExtra* create(cocos2d::CCNode* sprite, cocos2d::CCObject* target, cocos2d::SEL_MenuHandler callback) {
 		return CCMenuItemSpriteExtra::create(sprite, nullptr, target, callback);
 	}
+
+	bool init(cocos2d::CCNode*, cocos2d::CCNode*, cocos2d::CCObject*, cocos2d::SEL_MenuHandler);
 
 	/// Update the sizing of this button's image
 	/// If you for example have a `ButtonSprite` on this button and change the
@@ -83,8 +94,10 @@ class CCMenuItemSpriteExtra : cocos2d::CCMenuItemSprite {
 		sprite->setAnchorPoint({ .5f, .5f });
 		this->setContentSize(size);
 	}
-
+	float m_scaleMultiplier; // m_scaleVar
 	float m_baseScale; // m_originalScale
+	//bool m_animationEnabled; // m_shouldAnimate
+	bool m_colorEnabled; // m_darkenClick
 }
 
 [[link(android)]]

@@ -99,6 +99,8 @@ class CCMenuItemToggler : cocos2d::CCMenuItem {
 [[link(android)]]
 class CCScrollLayerExt : cocos2d::CCLayer {
 	// add functions
+
+	cocos2d::CCLayerColor* m_contentLayer; // m_contentLayer
 }
 
 [[link(android)]]

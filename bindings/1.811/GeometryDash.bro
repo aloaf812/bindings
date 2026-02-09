@@ -3406,8 +3406,6 @@ class GaragePage : cocos2d::CCLayer, ListButtonBarDelegate {
 	void onSelect(cocos2d::CCObject* sender) = win 0x80730;
 	void updateSelect(cocos2d::CCNode*);
 
-	virtual void listButtonBarSwitchedPage(ListButtonBar*, int);
-
 	GJGarageLayer* m_garageLayer;
 	cocos2d::SEL_MenuHandler m_callback;
 	cocos2d::CCSprite* m_selectSprite;
@@ -3928,7 +3926,6 @@ class GJGarageLayer : cocos2d::CCLayer, TextInputDelegate, FLAlertLayerProtocol,
 	virtual void textInputOpened(CCTextInputNode*) = win 0x7d3f0;
 	virtual void textInputClosed(CCTextInputNode*) = win 0x7d580;
 	virtual void textChanged(CCTextInputNode*) = win 0x374f0;
-	virtual void listButtonBarSwitchedPage(ListButtonBar*, int) = win 0x7ed00;
 	virtual void updateRate() = win 0x7f610;
 	virtual void FLAlert_Clicked(FLAlertLayer*, bool) = win 0x7f540;
 	virtual cocos2d::CCSprite* getRateSprite() const = win 0xf710;
@@ -5182,9 +5179,6 @@ class ListButtonBar : cocos2d::CCNode {
 		this->m_scrollLayer->getTotalPages();
 		this->m_scrollLayer->instantMoveToPage(page - 1);
 		this->m_scrollLayer->instantMoveToPage(page);
-		if (this->m_delegate) {
-			this->m_delegate->listButtonBarSwitchedPage(this, page);
-		}
 	}
 
 	virtual ListButtonBarDelegate* getDelegate() const;
@@ -5197,7 +5191,6 @@ class ListButtonBar : cocos2d::CCNode {
 
 [[link(android)]]
 class ListButtonBarDelegate {
-	virtual void listButtonBarSwitchedPage(ListButtonBar*, int) {}
 }
 
 [[link(android)]]

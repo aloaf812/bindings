@@ -129,7 +129,7 @@ class cocos2d::CCFileUtils : cocos2d::TypeInfo {
 	virtual void addSearchPath(const char* path);
 	virtual void removeSearchPath(const char *path);
 	virtual const gd::vector<gd::string>& getSearchPaths();
-	virtual gd::string getWritablePath2();
+	// virtual gd::string getWritablePath2();
 	virtual bool isAbsolutePath(const gd::string&);
 	virtual void setPopupNotify(bool);
 	virtual bool isPopupNotify();
@@ -245,7 +245,7 @@ class cocos2d::CCLayer : cocos2d::CCNode, cocos2d::CCTouchDelegate, cocos2d::CCA
 	virtual void setMouseEnabled(bool);
  	virtual void keyBackClicked();
 	virtual void keyMenuClicked();
-	virtual void keyDown(cocos2d::enumKeyCodes);
+	// virtual void keyDown(cocos2d::enumKeyCodes);
 }
 
 [[link(android)]]

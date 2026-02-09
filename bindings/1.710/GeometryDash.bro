@@ -53,6 +53,7 @@ class CCCircleWaveDelegate {
 
 [[link(android)]]
 class CCContentLayer : cocos2d::CCLayerColor {
+	inline CCContentLayer() {}
 	// add functions
 }
 
@@ -131,6 +132,7 @@ class CCScrollLayerExt : cocos2d::CCLayer {
 	void moveToTop();
 
 	cocos2d::CCLayerColor* m_contentLayer; // m_contentLayer
+	bool m_cutContent; // m_clipsToBounds
 }
 
 [[link(android)]]
@@ -150,14 +152,17 @@ class CCTableViewCell : cocos2d::CCLayer {
 	// add functions
 	
 	CCTableView* m_tableView;
+	cocos2d::CCLayerColor* m_backgroundLayer;
 }
 
 [[link(android)]]
 class CCTextInputNode : cocos2d::CCLayer, cocos2d::CCIMEDelegate, cocos2d::CCTextFieldDelegate {
 	// add functions
 	virtual void textChanged();
+	gd::string getString();
 
 	bool m_selected;
+	gd::string m_allowedChars;
 	TextInputDelegate* m_delegate;
 	cocos2d::CCLabelBMFont* m_textLabel;
 }
@@ -284,6 +289,7 @@ class GooglePlayDelegate {
 
 [[link(android)]]
 class LevelBrowserLayer : cocos2d::CCLayer, LevelManagerDelegate {
+	static cocos2d::CCScene* scene(GJSearchObject*);
 }
 
 [[link(android)]]
@@ -324,6 +330,10 @@ class LevelPage : cocos2d::CCLayer {
 [[link(android)]]
 class LevelSelectLayer : cocos2d::CCLayer, BoomScrollLayerDelegate {
 	// add functions
+}
+
+[[link(android)]]
+class LevelTools {
 }
 
 [[link(android)]]
@@ -420,6 +430,8 @@ class Slider : cocos2d::CCLayer {
 	void setValue(float);
 
 	SliderTouchLogic* m_touchLogic;
+	float m_width;
+	float m_height;
 }
 
 [[link(android)]]

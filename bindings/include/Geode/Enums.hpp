@@ -38,6 +38,7 @@ enum class SearchType {
     Sent = 27,
     FeaturedLite = 28,
     Bonus = 29,
+    StarAward = 30,
     MyLevels = 98,
     SavedLevels = 99,
     FavouriteLevels = 100,
@@ -647,6 +648,13 @@ enum class ObjectScaleType {
     XY = 0,
     X = 1,
     Y = 2
+};
+
+//Geode Addition
+enum class ScaleButtonType : short {
+    X = 0,
+    Y = 1,
+    XY = 2,
 };
 
 // Thanks cocoa!

@@ -1260,7 +1260,7 @@ class CCTextInputNode : cocos2d::CCLayer, cocos2d::CCIMEDelegate, cocos2d::CCTex
 	void setString(gd::string) = win 0x13d70;
 	void refreshLabel() = win 0x14030;
 	TodoReturn updateBlinkLabel();
-	TodoReturn updateLabel(gd::string);
+	void updateLabel(gd::string) = win 0x13e40;
 
 	virtual void visit();
 	virtual bool ccTouchBegan(cocos2d::CCTouch*, cocos2d::CCEvent*) = win 0x14c00;
@@ -1882,7 +1882,13 @@ class EditorUI : cocos2d::CCLayer, FLAlertLayerProtocol, ColorSelectDelegate, GJ
 	gd::string copyObjects(cocos2d::CCArray*) = win 0x48fc0;
 	void createMoveMenu() = win 0x49d20;
 	void createUndoSelectObject(bool) = win 0x48240;
-	void deactivateRotationControl();
+	void deactivateRotationControl() = win inline {
+		m_rotationTouchID = -1;
+		if (m_rotationControl->isVisible()) {
+			m_rotationControl->setVisible(false);
+			m_rotationControl->finishTouch();
+		}
+	}
 	void deleteObject(GameObject*, bool);
 	void deselectAll() = win 0x48380;
 	void deselectObject() = win inline {
@@ -2467,7 +2473,7 @@ class GameLevelManager : cocos2d::CCNode {
 	TodoReturn getDiffVal(int);
 	int getIntForKey(char const*) = win 0x60c10;
 	void getLeaderboardScores(char const*) = win 0x5ce50;
-	TodoReturn getLengthStr(bool, bool, bool, bool);
+	gd::string getLengthStr(bool, bool, bool, bool) = win 0x599b0;
 	TodoReturn getLenKey(int);
 	TodoReturn getLenVal(int);
 	void getLevelComments(int, int, int) = win 0x5d320;
@@ -3375,16 +3381,20 @@ class GameStatsManager : cocos2d::CCNode {
 	void dataLoaded(DS_Dictionary*) = win 0x79150;
 	void encodeDataTo(DS_Dictionary*);
 	TodoReturn firstSetup();
-	TodoReturn getDemonLevelKey(int);
+	const char* getDemonLevelKey(int levelID) {
+		return cocos2d::CCString::createWithFormat("demon_%i", levelID)->getCString();
+	}
 	TodoReturn getLevelKey(GJGameLevel*);
 	TodoReturn getLevelKey(int, bool);
 	TodoReturn getLiteAchievements();
 	TodoReturn getMapPackKey(int);
-	TodoReturn getStarLevelKey(int);
+	const char* getStarLevelKey(int levelID) {
+		return cocos2d::CCString::createWithFormat("star_%i", levelID)->getCString();
+	}
 	int getStat(char const*) = win 0x770c0;
 	TodoReturn getUniqueItemKey(char const*);
 	TodoReturn hasCompletedDemonLevel(GJGameLevel*);
-	TodoReturn hasCompletedLevel(GJGameLevel*);
+	bool hasCompletedLevel(GJGameLevel*) = win 0x78220;
 	bool hasCompletedMapPack(int) = win 0x78c80;
 	bool hasCompletedOnlineLevel(int) = win 0x78320;
 	TodoReturn hasCompletedStarLevel(GJGameLevel*);
@@ -3399,7 +3409,7 @@ class GameStatsManager : cocos2d::CCNode {
 	TodoReturn markLevelAsCompletedAndClaimed(int);
 	TodoReturn resetPreSync();
 	void restorePostSync() = win 0x79530;
-	void setStat(char const*, int);
+	void setStat(char const*, int) = win 0x77180;
 	void setStatIfHigher(char const*, int);
 	void storeUniqueItem(char const*) = win 0x78e40;
 	TodoReturn tempClear();
@@ -4044,7 +4054,7 @@ class GJGarageLayer : cocos2d::CCLayer, TextInputDelegate, FLAlertLayerProtocol,
 }
 
 [[link(android)]]
-class GJGroundLayer {
+class GJGroundLayer : cocos2d::CCLayer {
 	// virtual ~GJGroundLayer();
 
 	static GJGroundLayer* create(int) = win 0x81140;
@@ -4061,6 +4071,11 @@ class GJGroundLayer {
 	virtual TodoReturn showGround();
 	virtual TodoReturn fadeInGround(float);
 	virtual TodoReturn fadeOutGround(float);
+
+	cocos2d::CCSprite* m_groundSprite; // 0x118
+	float m_groundWidth; // 0x11c
+	cocos2d::CCSprite* m_line; // 0x120
+	bool m_isActive; // 0x124
 }
 
 [[link(android)]]
@@ -4736,7 +4751,17 @@ class LevelEditorLayer : cocos2d::CCLayer, LevelSettingsDelegate, GameplayDelega
 	void rotationForSlopeNearObject(GameObject*) = win 0x8d5c0;
 	TodoReturn scene(GJGameLevel*);
 	TodoReturn sectionForPos(cocos2d::CCPoint);
-	void setStartPosObject(StartPosObject*);
+	void setStartPosObject(StartPosObject* startPos) = win inline {
+		if (startPos != m_startPosObject) {
+            if (startPos) {
+                startPos->retain();
+            }
+            if (m_startPosObject) {
+                m_startPosObject->release();
+            }
+            m_startPosObject = startPos;
+        }
+	}
 	TodoReturn setupLevelStart(LevelSettingsObject*);
 	void sortBatchnodeChildren(float);
 	TodoReturn spawnPlayer2();
@@ -6382,7 +6407,7 @@ class PlayLayer : cocos2d::CCLayer, CCCircleWaveDelegate, GameplayDelegate {
 	void objectIntersectsCircle(GameObject*, GameObject*) = win 0x90400;
 	void onQuit() = win 0xf3b80;
 	void pauseGame(bool) = win 0xf38c0;
-	TodoReturn pickupItem(GameObject*);
+	void pickupItem(GameObject*) = win 0xee080;
 	TodoReturn playEndAnimationToPos(cocos2d::CCPoint);
 	TodoReturn playerWillSwitchMode(PlayerObject*, GameObject*);
 	TodoReturn playExitDualEffect(PlayerObject*);
@@ -6407,7 +6432,17 @@ class PlayLayer : cocos2d::CCLayer, CCCircleWaveDelegate, GameplayDelegate {
 	TodoReturn scene(GJGameLevel*);
 	TodoReturn sectionForPos(cocos2d::CCPoint);
 	void setActiveEnterEffect(EnterEffect);
-	void setStartPosObject(StartPosObject*);
+	void setStartPosObject(StartPosObject* startPos) = win inline {
+		if (startPos != m_startPosObject) {
+            if (startPos) {
+                startPos->retain();
+            }
+            if (m_startPosObject) {
+                m_startPosObject->release();
+            }
+            m_startPosObject = startPos;
+        }
+	}
 	TodoReturn setupLevelStart(LevelSettingsObject*);
 	void setupReplay(gd::string);
 	TodoReturn shakeCamera(float) = win 0xe61c0;
@@ -6442,7 +6477,7 @@ class PlayLayer : cocos2d::CCLayer, CCCircleWaveDelegate, GameplayDelegate {
 	TodoReturn unclaimParticle(char const*, cocos2d::CCParticleSystemQuad*);
 	TodoReturn unregisterActiveObject(GameObject*);
 	TodoReturn unregisterStateObject(GameObject*);
-	TodoReturn updateAttempts();
+	void updateAttempts() = win 0xf33a0;
 	void updateCamera(float) = win 0xed0f0;
 	void updateColor(cocos2d::ccColor3B, float, int) = win 0xeca90;
 	void updateCustomColorBlend(int channel, bool blend) = win inline {
@@ -6940,13 +6975,21 @@ class SetGroupIDLayer : FLAlertLayer {
 	void onDown(cocos2d::CCObject* sender) = win 0xf7e20;
 	void onUp(cocos2d::CCObject* sender) = win 0xf7dd0;
 	void updateGroupID() = win 0xf7e80;
-	void updateLabel();
+	void updateLabel() = win inline {
+		if (m_groupIndex < 0) {
+			m_groupLabel->setString("Mixed");
+		}
+		else {
+			m_groupLabel->setString(cocos2d::CCString::createWithFormat("%i", m_groupIndex)->getCString());
+		}
+	}
 
 	virtual void keyBackClicked();
 
 	GameObject* m_targetObject; // 0x1bc
 	cocos2d::CCArray* m_targetObjects; // 0x1c0
 	cocos2d::CCLabelBMFont* m_groupLabel; // 0x1c4
+	int m_groupIndex; // 0x1c8
 }
 
 [[link(android)]]

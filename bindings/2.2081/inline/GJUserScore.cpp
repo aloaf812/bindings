@@ -1,4 +1,4 @@
-#include <Geode/Geode.hpp>
+#include <Geode/Bindings.hpp>
 
 
 #if defined(GEODE_IS_WINDOWS) || defined(GEODE_IS_IOS)
@@ -63,8 +63,7 @@ GJUserScore::GJUserScore() {
     m_playerSpider = 1;
     m_playerSwing = 1;
     m_playerStreak = 1;
-    m_unkInt = 0;
-    m_unkInt2 = 0;
+    m_lobbyJoinTime = 0.0;
     m_levelMode = 0;
     m_leaderboardMode = LevelLeaderboardMode::Time;
     m_leaderboardStat = LeaderboardStat::Stars;

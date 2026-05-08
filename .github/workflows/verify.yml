@@ -73,7 +73,7 @@ jobs:
       matrix:
         config:
         - name: Windows
-          os: windows-latest
+          os: windows-2025-vs2026
           prefixes: ''
           extra_flags: >
             -A x64
@@ -146,7 +146,7 @@ jobs:
       with:
         repository: geode-sdk/geode
         # TODO: this is temporary
-        ref: main
+        ref: nightly
         path: geode
 
     - name: Set up codegen binary cache

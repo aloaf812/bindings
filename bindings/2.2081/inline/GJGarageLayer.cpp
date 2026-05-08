@@ -1,4 +1,4 @@
-#include <Geode/Geode.hpp>
+#include <Geode/Bindings.hpp>
 
 #if !defined(GEODE_IS_IOS)
 GJGarageLayer::GJGarageLayer() {
@@ -12,6 +12,18 @@ GJGarageLayer::GJGarageLayer() {
     m_iconID = 0;
     m_selectedIconType = IconType::Cube;
     m_videoPlaying = false;
+}
+#endif
+
+#if defined(GEODE_IS_WINDOWS) || defined(GEODE_IS_ANDROID)
+GJGarageLayer* GJGarageLayer::node() {
+    auto ret = new GJGarageLayer();
+    if (ret->init()) {
+        ret->autorelease();
+        return ret;
+    }
+    delete ret;
+    return nullptr;
 }
 #endif
 
@@ -59,16 +71,6 @@ GJGarageLayer::~GJGarageLayer() {
     CC_SAFE_RELEASE(m_tabButtons);
     CC_SAFE_RELEASE(m_pageButtons);
     if (gm->m_rewardedVideoDelegate == this) gm->m_rewardedVideoDelegate = nullptr;
-}
-
-GJGarageLayer* GJGarageLayer::node() {
-    auto ret = new GJGarageLayer();
-    if (ret->init()) {
-        ret->autorelease();
-        return ret;
-    }
-    delete ret;
-    return nullptr;
 }
 
 gd::string GJGarageLayer::titleForUnlock(int id, UnlockType type) {

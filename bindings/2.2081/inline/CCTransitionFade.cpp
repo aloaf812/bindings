@@ -1,4 +1,4 @@
-#include <Geode/Geode.hpp>
+#include <Geode/Bindings.hpp>
 
 
 #if defined(GEODE_IS_WINDOWS) || defined(GEODE_IS_IOS)
@@ -8,5 +8,8 @@
 #endif
 
 #if defined(GEODE_IS_IOS)
+cocos2d::CCTransitionFade::CCTransitionFade() {}
+
+cocos2d::CCTransitionFade::~CCTransitionFade() {}
 #endif
 

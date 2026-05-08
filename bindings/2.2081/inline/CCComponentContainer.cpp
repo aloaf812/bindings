@@ -1,4 +1,4 @@
-#include <Geode/Geode.hpp>
+#include <Geode/Bindings.hpp>
 
 
 #if defined(GEODE_IS_WINDOWS) || defined(GEODE_IS_IOS)
@@ -12,5 +12,9 @@ cocos2d::CCComponentContainer::CCComponentContainer(cocos2d::CCNode* p0) {
 #endif
 
 #if defined(GEODE_IS_IOS)
+void cocos2d::CCComponentContainer::alloc() {
+    m_pComponents = CCDictionary::create();
+    m_pComponents->retain();
+}
 #endif
 

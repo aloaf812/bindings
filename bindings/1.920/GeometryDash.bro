@@ -3056,7 +3056,7 @@ class GameObject : CCSpritePlus {
 	virtual void setFlipX(bool);
 	virtual void setFlipY(bool);
 	virtual void resetObject();
-	virtual void triggerObject();
+	virtual void triggerObject() = win 0x6e230;
 	virtual void activateObject() = win 0x6e970;
 	virtual void deactivateObject() = win 0x6ec00;
 	virtual cocos2d::CCRect getObjectRect() = win 0x722a0;
@@ -4455,7 +4455,7 @@ class HardStreak : cocos2d::CCDrawNode {
 	TodoReturn normalizeAngle(double);
 	TodoReturn quadCornerOffset(cocos2d::CCPoint, cocos2d::CCPoint, float);
 	TodoReturn reset();
-	TodoReturn resumeStroke();
+	void resumeStroke() = win 0x832d0;
 	TodoReturn stopStroke();
 	void updateStroke(float) = win 0x833e0;
 
@@ -4616,6 +4616,17 @@ class LeaderboardsLayer : cocos2d::CCLayer, LeaderboardManagerDelegate {
 	virtual void updateUserScoreFailed() = win 0x88ea0;
 	virtual void loadLeaderboardFinished(cocos2d::CCArray*, char const*) = win 0x88eb0;
 	virtual void loadLeaderboardFailed(char const*) = win 0x88f20;
+
+	GJListLayer* m_list; // 0x11c
+	cocos2d::CCArray* m_userScores; // 0x120
+	LeaderboardState m_leaderboardState; // 0x124
+	CCMenuItemToggler* m_top100Tab; // 0x128
+	CCMenuItemToggler* m_globalTab; // 0x12c
+	CCMenuItemToggler* m_creatorsTab; // 0x130
+	CCMenuItemToggler* m_topWeekTab; // 0x134
+	CCMenuItemSpriteExtra* m_infoButton; // 0x138
+	LoadingCircle* m_loadingCircle; // 0x13c
+	TextArea* m_noInternet; // 0x140
 }
 
 [[link(android)]]
@@ -4645,7 +4656,7 @@ class LevelBrowserLayer : cocos2d::CCLayer, LevelManagerDelegate, FLAlertLayerPr
 	virtual TodoReturn loadLevelsFinished(cocos2d::CCArray*, char const*);
 	virtual TodoReturn loadLevelsFailed(char const*);
 	virtual TodoReturn setupPageInfo(gd::string, char const*) = win 0x8aab0;
-	virtual void FLAlert_Clicked(FLAlertLayer*, bool);
+	virtual void FLAlert_Clicked(FLAlertLayer*, bool) = win 0x8b450;
 
 	TextArea* m_noInternet;
 	GJListLayer* m_list;
@@ -4667,7 +4678,7 @@ class LevelCell : TableViewCell {
 
 	void loadCustomLevelCell() = win 0x30360;
 	void loadFromLevel(GJGameLevel*);
-	void loadLocalLevelCell();
+	void loadLocalLevelCell() = win 0x313b0;
 	void onClick(cocos2d::CCObject* sender) = win 0x31cd0;
 	void updateBGColor(int) = win 0x31c60;
 
@@ -6075,10 +6086,10 @@ class PlayerObject : GameObject {
 	TodoReturn levelFlipFinished();
 	TodoReturn levelFlipping();
 	TodoReturn levelWillFlip();
-	void loadFromCheckpoint(PlayerCheckpoint*);
+	void loadFromCheckpoint(PlayerCheckpoint*) = win 0xe19c0;
 	TodoReturn lockPlayer();
 	TodoReturn logValues();
-	TodoReturn placeStreakPoint();
+	void placeStreakPoint() = win 0xe1270;
 	TodoReturn playBurstEffect();
 	TodoReturn playerDestroyed(bool) = win 0xddda0;
 	bool playerIsFalling();
@@ -6136,7 +6147,7 @@ class PlayerObject : GameObject {
 	void updateCollideBottom(float, int) = win 0xdd330;
 	void updateCollideTop(float, int) = win 0xdd2c0;
 	void updateGlowColor() = win 0xdfc80;
-	TodoReturn updateJump(float);
+	void updateJump(float) = win 0xda1a0;
 	void updatePlayerBirdFrame(int) = win 0xe0290;
 	void updatePlayerDartFrame(int) = win 0xe0580;
 	void updatePlayerFrame(int) = win 0xdfff0;

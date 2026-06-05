@@ -570,7 +570,7 @@ class AppDelegate : cocos2d::CCApplication, cocos2d::CCSceneDelegate {
     bool m_ios;
     bool m_unk0eb;
     bool m_unk0ec;
-    bool m_unk0ed;
+    bool m_needsSafeArea;
     float m_saveTime;
 }
 
@@ -725,7 +725,7 @@ class BoomListLayer : cocos2d::CCLayerColor {
 
 [[link(android)]]
 class BoomListView : cocos2d::CCLayer, TableViewDelegate, TableViewDataSource {
-    BoomListView() = inline;
+    BoomListView() = win 0x3be90, inline;
     ~BoomListView() = win 0x3bf80, imac 0x30c2f0, m1 0x29bc44, ios 0x1cfde0;
 
     static BoomListView* create(cocos2d::CCArray* entries, TableViewCellDelegate* delegate, float height, float width, int page, BoomListType type, float y) = win inline, imac 0x30c610, m1 0x29be54, ios inline;
@@ -6665,9 +6665,9 @@ class GameOptionsLayer : GJOptionsLayer {
     virtual void didToggle(int tag) = win 0x2a0560, imac 0x2b1ea0, m1 0x24ffa8, ios 0x2e2190;
 
     bool init(GJBaseGameLayer* baseGameLayer) = win inline, imac 0x2b10b0, m1 0x24f210, ios 0x2e15ec;
-    void onPracticeMusicSync(cocos2d::CCObject* sender) = win 0x2a0270, imac 0x2b18a0, m1 0x24f9c0, ios 0x2e1d48;
-    void onUIOptions(cocos2d::CCObject* sender) = win 0x2a03f0, imac 0x2b1800, m1 0x24f92c, ios 0x2e1cb4;
-    void onUIPOptions(cocos2d::CCObject* sender) = win 0x2a0410, imac 0x2b1880, m1 0x24f9a0, ios 0x2e1d28;
+    void onPracticeMusicSync(cocos2d::CCObject* sender) = win 0x2a0270, imac 0x2b1800, m1 0x24f92c, ios 0x2e1cb4;
+    void onUIOptions(cocos2d::CCObject* sender) = win 0x2a03f0, imac 0x2b1880, m1 0x24f9a0, ios 0x2e1d28;
+    void onUIPOptions(cocos2d::CCObject* sender) = win 0x2a0410, imac 0x2b18a0, m1 0x24f9c0, ios 0x2e1d48;
     void showPracticeMusicSyncUnlockInfo() = win 0x29fa10, imac 0x2b1900, m1 0x24fa2c, ios 0x2e1d64;
 
     GJBaseGameLayer* m_baseGameLayer;
@@ -12372,7 +12372,7 @@ class LevelManagerDelegate {
 [[link(android)]]
 class LevelOptionsLayer : GJOptionsLayer {
     // virtual ~LevelOptionsLayer();
-    LevelOptionsLayer() = inline;
+    LevelOptionsLayer() = win 0x31e730, inline;
 
     static LevelOptionsLayer* create(LevelSettingsObject* object) = win inline, imac 0x26e720, m1 0x2117fc, ios 0x17babc;
 
@@ -16869,7 +16869,7 @@ class SetupCollisionStateTriggerPopup : SetupInstantCollisionTriggerPopup {
     // virtual ~SetupCollisionStateTriggerPopup();
     SetupCollisionStateTriggerPopup() = inline;
 
-    static SetupCollisionStateTriggerPopup* create(EffectGameObject* object, cocos2d::CCArray* objects) = win inline, imac 0x397d20, m1 0x31d938, ios 0x231488;
+    static SetupCollisionStateTriggerPopup* create(EffectGameObject* object, cocos2d::CCArray* objects) = win 0x41a8b0, imac 0x397d20, m1 0x31d938, ios 0x231488;
 
     bool init(EffectGameObject* object, cocos2d::CCArray* objects) = win 0x41a9c0, imac 0x397f50, m1 0x31dac4, ios 0x231564;
 }
@@ -19203,7 +19203,8 @@ class SongInfoObject : cocos2d::CCNode {
 
     static SongInfoObject* create(cocos2d::CCDictionary* dict) = win 0x3448b0, imac 0x58c1e0, m1 0x4d740c, ios 0x154920;
     static SongInfoObject* create(int songID) = win 0x344730, imac 0x596ea0, m1 0x4e0cc0, ios 0x15b164;
-    static SongInfoObject* create(int songID, gd::string songName, gd::string artistName, int artistID, float filesize, gd::string youtubeVideo, gd::string youtubeChannel, gd::string url, gd::string unknown, int nongType, gd::string extraArtistIDs, bool isNew, int libraryOrder, int priority) = win 0x345bf0, imac 0x593d00, m1 0x4ddfe4, ios 0x158f48;
+    /// @param downloadLinkOverride The user-friendly page URL for the song
+    static SongInfoObject* create(int songID, gd::string songName, gd::string artistName, int artistID, float filesize, gd::string youtubeVideo, gd::string youtubeChannel, gd::string url, gd::string downloadLinkOverride, int nongType, gd::string extraArtistIDs, bool isNew, int libraryOrder, int priority) = win 0x345bf0, imac 0x593d00, m1 0x4ddfe4, ios 0x158f48;
     static SongInfoObject* createWithCoder(DS_Dictionary* dict) = win 0x346250, imac 0x5974f0, m1 0x4e1260, ios 0x15b644;
 
     virtual void encodeWithCoder(DS_Dictionary* dict) = win 0x3465b0, imac 0x597d60, m1 0x4e1920, ios 0x15bb98;
@@ -19215,7 +19216,8 @@ class SongInfoObject : cocos2d::CCNode {
     gd::string getArtistNames(int unused) = win 0x3467b0, imac 0x597f70, m1 0x4e1ac8, ios 0x15bd40;
     int getExtraArtistCount() = win 0x346c00, m1 0x4e20a0, imac 0x598730, ios 0x15c0b4;
     gd::string getTagsString(bool shortTags) = win 0x346e60, imac 0x5988a0, m1 0x4e21ac, ios 0x15c100;
-    bool init(int songID, gd::string songName, gd::string artistName, int artistID, float filesize, gd::string youtubeVideo, gd::string youtubeChannel, gd::string url, gd::string unknown, int nongType, gd::string extraArtistIDs, bool isNew, int libraryOrder, int priority) = win 0x345e60, imac 0x5970a0, m1 0x4e0e50, ios 0x15b378;
+    /// @param downloadLinkOverride The user-friendly page URL for the song
+    bool init(int songID, gd::string songName, gd::string artistName, int artistID, float filesize, gd::string youtubeVideo, gd::string youtubeChannel, gd::string url, gd::string downloadLinkOverride, int nongType, gd::string extraArtistIDs, bool isNew, int libraryOrder, int priority) = win 0x345e60, imac 0x5970a0, m1 0x4e0e50, ios 0x15b378;
     void updateArtists(gd::string artists) = win inline, imac 0x597310, m1 0x4e1090, ios 0x15b510;
 
     int m_songID;
@@ -19224,7 +19226,7 @@ class SongInfoObject : cocos2d::CCNode {
     gd::string m_youtubeVideo;
     gd::string m_youtubeChannel;
     gd::string m_songUrl;
-    gd::string m_unkString;
+    gd::string m_downloadLinkOverride;
     int m_artistID;
     float m_fileSize;
     int m_nongType;
@@ -19233,7 +19235,7 @@ class SongInfoObject : cocos2d::CCNode {
     bool m_verified;
     bool m_isBlocked;
     int m_priority;
-    int m_unkInt;
+    int m_duration; //in seconds
     int m_BPM;
     bool m_isNew;
     int m_libraryOrder;

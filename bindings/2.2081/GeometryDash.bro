@@ -3292,16 +3292,16 @@ class DialogObject : cocos2d::CCObject {
     // virtual ~DialogObject();
     DialogObject() = inline;
 
-    static DialogObject* create(gd::string character, gd::string text, int characterFrame, float textScale, bool skippable, cocos2d::ccColor3B color) = win 0xd32d0, imac 0x3c6c40, m1 0x3482a0, ios 0x865b4;
+    static DialogObject* create(gd::string character, gd::string text, int characterFrame, float textScale, bool unskippable, cocos2d::ccColor3B nameColor) = win 0xd32d0, imac 0x3c6c40, m1 0x3482a0, ios 0x865b4;
 
-    bool init(gd::string character, gd::string text, int characterFrame, float textScale, bool skippable, cocos2d::ccColor3B color) = win inline, imac 0x3c6dd0, m1 0x348458, ios inline;
+    bool init(gd::string character, gd::string text, int characterFrame, float textScale, bool unskippable, cocos2d::ccColor3B nameColor) = win inline, imac 0x3c6dd0, m1 0x348458, ios inline;
 
     gd::string m_text;
     gd::string m_character;
     int m_characterFrame;
-    cocos2d::ccColor3B m_color;
+    cocos2d::ccColor3B m_nameColor;
     float m_textScale;
-    bool m_skippable;
+    bool m_unskippable;
 }
 
 [[link(android)]]
@@ -12023,7 +12023,7 @@ class LevelEditorLayer : GJBaseGameLayer, LevelSettingsDelegate {
     cocos2d::CCArray* m_cameraGuideTriggers;
     cocos2d::CCArray* m_particleObjects;
     cocos2d::CCArray* m_keyframeObjects;
-    cocos2d::CCDictionary* m_unk3720;
+    cocos2d::CCArray* m_spawnOrderTriggers;
     cocos2d::CCArray* m_playtestTriggers;
     GameObject* m_copyStateObject;
     ParticleGameObject* m_particleObject;
